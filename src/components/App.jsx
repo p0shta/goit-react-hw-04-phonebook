@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { useState, useEffect } from 'react';
 
 import ContactForm from './ContactForm/ContactForm';
 import ContactList from './ContactList/ContactList';
@@ -7,38 +7,24 @@ import Filter from './Filter/Filter';
 import { nanoid } from 'nanoid';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
-export class App extends Component {
-    state = {
-        contacts: [],
-        filter: '',
-    };
+export function App() {
+    const [contacts, setContacts] = useState(() =>
+        JSON.parse(localStorage.getItem('contacts'))
+    );
+    const [filter, setFilter] = useState('');
 
-    componentDidMount() {
-        const contacts = localStorage.getItem('contacts');
-        const parsedContacts = JSON.parse(contacts);
+    useEffect(() => {
+        localStorage.setItem('contacts', JSON.stringify(contacts));
+    }, [contacts]);
 
-        if (parsedContacts) {
-            this.setState({ contacts: parsedContacts });
-        }
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-        if (prevState.contacts !== this.state.contacts) {
-            localStorage.setItem(
-                'contacts',
-                JSON.stringify(this.state.contacts)
-            );
-        }
-    }
-
-    addContact = (name, number) => {
+    const addContact = (name, number) => {
         const contact = {
             id: nanoid(),
             name,
             number,
         };
 
-        const isYourContact = this.state.contacts.find(
+        const isYourContact = contacts.find(
             item => item.name.toLowerCase() === name.toLowerCase()
         );
 
@@ -47,40 +33,31 @@ export class App extends Component {
             return;
         }
 
-        this.setState(prevState => ({
-            contacts: [contact, ...prevState.contacts],
-        }));
+        setContacts(prevState => [contact, ...prevState]);
     };
 
-    deleteContact = id => {
-        this.setState(prevState => ({
-            contacts: prevState.contacts.filter(contact => contact.id !== id),
-        }));
+    const deleteContact = id => {
+        setContacts(contacts.filter(contact => contact.id !== id));
     };
 
-    filterContacts = filterText => {
-        this.setState({ filter: filterText });
+    const filterContacts = filterText => {
+        setFilter(filterText);
     };
 
-    render() {
-        const filteredContacts = this.state.contacts.filter(contact =>
-            contact.name.toLowerCase().includes(this.state.filter.toLowerCase())
-        );
+    const filteredContacts = contacts.filter(contact =>
+        contact.name.toLowerCase().includes(filter.toLowerCase())
+    );
 
-        return (
-            <div className="wrapper">
-                <h1 className="title">Phonebook</h1>
-                <ContactForm addContact={this.addContact} />
-                <h2 className="title">Contacts</h2>
-                <Filter
-                    filterContacts={this.filterContacts}
-                    filter={this.state.filter}
-                />
-                <ContactList
-                    contacts={filteredContacts}
-                    deleteContact={this.deleteContact}
-                />
-            </div>
-        );
-    }
+    return (
+        <div className="wrapper">
+            <h1 className="title">Phonebook</h1>
+            <ContactForm addContact={addContact} />
+            <h2 className="title">Contacts</h2>
+            <Filter filterContacts={filterContacts} filter={filter} />
+            <ContactList
+                contacts={filteredContacts}
+                deleteContact={deleteContact}
+            />
+        </div>
+    );
 }
