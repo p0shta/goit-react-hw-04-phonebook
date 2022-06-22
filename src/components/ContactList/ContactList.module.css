@@ -1,0 +1,32 @@
+.item {
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    color: #586f7c;
+}
+
+.item span {
+    margin-right: 10px;
+}
+
+.item:not(:last-child) {
+    margin-bottom: 10px;
+}
+
+.decor {
+    display: block;
+    width: 10px;
+    height: 2px;
+    border-radius: 50%;
+    background-color: #2f4550;
+}
+
+.button {
+    font-size: 12px;
+    margin-left: auto;
+    padding: 5px 15px;
+    border-radius: 10px;
+    background-color: #586f7cee;
+    color: #f4f4f9;
+    border: none;
+}

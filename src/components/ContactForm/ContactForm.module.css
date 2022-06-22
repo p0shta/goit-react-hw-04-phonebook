@@ -1,0 +1,31 @@
+.form {
+    margin-bottom: 20px;
+}
+
+.labelName {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: #586f7c;
+}
+
+.input {
+    width: 100%;
+    margin-bottom: 20px;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #2f4550;
+    outline: none;
+    color: #2f4550;
+}
+
+.button {
+    display: block;
+    margin-left: auto;
+    width: 25%;
+    padding: 11px;
+    border-radius: 10px;
+    border: none;
+    background-color: #2f4550;
+    color: white;
+}
