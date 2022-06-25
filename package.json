@@ -40,6 +40,8 @@
         ]
     },
     "devDependencies": {
+        "eslint": "^8.18.0",
+        "eslint-plugin-react": "^7.30.0",
         "prop-types": "^15.8.1"
     }
 }

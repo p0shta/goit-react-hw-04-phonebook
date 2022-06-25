@@ -8,8 +8,10 @@ import { nanoid } from 'nanoid';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
 export function App() {
-    const [contacts, setContacts] = useState(() =>
-        JSON.parse(localStorage.getItem('contacts'))
+    const [contacts, setContacts] = useState(
+        localStorage.getItem('contacts')
+            ? JSON.parse(localStorage.getItem('contacts'))
+            : []
     );
     const [filter, setFilter] = useState('');
 
